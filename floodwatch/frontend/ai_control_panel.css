@@ -1,0 +1,584 @@
+/* AI Control Panel - Fusion Intelligence Dashboard */
+
+.ai-control-panel {
+    --bg-dark: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --card-border: rgba(148, 163, 184, 0.1);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-red: #ef4444;
+    --accent-orange: #f97316;
+    --accent-green: #22c55e;
+    --accent-blue: #3b82f6;
+    --accent-gray: #64748b;
+    
+    padding: 24px;
+    background: var(--bg-dark);
+    border-radius: 16px;
+    margin-bottom: 24px;
+}
+
+.ai-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.ai-panel-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ai-panel-title h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.ai-panel-title .ai-badge {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.auto-refresh-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.auto-refresh-toggle label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 26px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--card-border);
+    transition: 0.3s;
+    border-radius: 26px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--text-primary);
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(22px);
+}
+
+.ai-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 1200px) {
+    .ai-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .ai-cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Glassmorphism Card Base */
+.ai-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ai-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Card 1: Flood Probability */
+.probability-card {
+    text-align: center;
+}
+
+.probability-card .card-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.probability-value {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 16px;
+    transition: color 0.3s ease;
+}
+
+.probability-value.high { color: var(--accent-red); }
+.probability-value.moderate { color: var(--accent-orange); }
+.probability-value.low { color: var(--accent-green); }
+
+.progress-bar-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    height: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+}
+
+.progress-bar.high { background: linear-gradient(90deg, #ef4444, #f87171); }
+.progress-bar.moderate { background: linear-gradient(90deg, #f97316, #fb923c); }
+.progress-bar.low { background: linear-gradient(90deg, #22c55e, #4ade80); }
+
+/* Card 2: Risk Level */
+.risk-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.risk-card .card-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.risk-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.risk-value.high { 
+    color: var(--accent-red); 
+    animation: pulse-red 1.5s infinite;
+}
+.risk-value.moderate { color: var(--accent-orange); }
+.risk-value.low { color: var(--accent-green); }
+
+@keyframes pulse-red {
+    0%, 100% { 
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+        text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+    50% { 
+        box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+        text-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+    }
+}
+
+/* Card 3: Confidence Score */
+.confidence-card {
+    text-align: center;
+}
+
+.confidence-card .card-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+.confidence-card .card-label .info-icon {
+    width: 16px;
+    height: 16px;
+    background: var(--card-border);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    cursor: help;
+}
+
+.confidence-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.confidence-description {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+/* Card 4: Trend Indicator */
+.trend-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.trend-card .card-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.trend-icon {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.trend-icon.rising { color: var(--accent-red); }
+.trend-icon.falling { color: var(--accent-blue); }
+.trend-icon.stable { color: var(--accent-gray); }
+
+.trend-text {
+    margin-top: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.trend-text.rising { color: var(--accent-red); }
+.trend-text.falling { color: var(--accent-blue); }
+.trend-text.stable { color: var(--accent-gray); }
+
+/* Timestamp */
+.ai-panel-timestamp {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    padding-top: 16px;
+    border-top: 1px solid var(--card-border);
+}
+
+/* Loading State */
+.ai-panel-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    color: var(--text-secondary);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--card-border);
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Error State */
+.ai-panel-error {
+    text-align: center;
+    padding: 24px;
+    color: var(--accent-red);
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Input Values Section */
+.input-values-section {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--card-border);
+}
+
+.input-values-title {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 768px) {
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-field label {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-field input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-field input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.input-field input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+/* Tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    width: 200px;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    transition: opacity 0.3s;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* T+15 MIN FLOOD FORECAST Card */
+.forecast-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.forecast-card.high {
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.2);
+}
+
+.forecast-card.moderate {
+    border-color: rgba(249, 115, 22, 0.4);
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.15);
+}
+
+.forecast-card.low {
+    border-color: rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
+}
+
+.forecast-header {
+    margin-bottom: 20px;
+}
+
+.forecast-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.forecast-subtitle {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.forecast-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forecast-main {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+}
+
+.forecast-probability {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #f8fafc;
+    line-height: 1;
+}
+
+.forecast-risk {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.forecast-risk.high {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.forecast-risk.moderate {
+    background: rgba(249, 115, 22, 0.2);
+    color: #f97316;
+}
+
+.forecast-risk.low {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.forecast-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.forecast-arrow {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.forecast-arrow.escalating { color: #ef4444; }
+.forecast-arrow.decreasing { color: #22c55e; }
+.forecast-arrow.stable { color: #64748b; }
+
+.forecast-status {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.forecast-status.escalating { color: #ef4444; }
+.forecast-status.decreasing { color: #22c55e; }
+.forecast-status.stable { color: #64748b; }
+
+/* Pulse Animation for HIGH Risk */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(239, 68, 68, 0.6);
+    }
+}
+
+.pulse-animation {
+    animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .forecast-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .forecast-probability {
+        font-size: 2.5rem;
+    }
+}

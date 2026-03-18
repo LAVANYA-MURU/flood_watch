@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FloodWatch - AI Powered Urban Flood Early Warning System</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                </svg>
+                <h1>FloodWatch</h1>
+            </div>
+            <div class="header-subtitle">AI Powered Urban Flood Early Warning System</div>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span id="system-status">System Online</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Alerts Section -->
+        <section class="alerts-section" id="alerts-section">
+            <div class="section-header">
+                <h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    Active Alerts
+                </h2>
+                <span class="alert-count" id="alert-count">0</span>
+            </div>
+            <div class="alerts-container" id="alerts-container">
+                <div class="no-alerts" id="no-alerts">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <p>No active alerts - All zones safe</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Zones Section -->
+        <section class="zones-section">
+            <div class="section-header">
+                <h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Monitored Zones
+                </h2>
+                <button class="refresh-btn" onclick="refreshData()" title="Refresh Data">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="zones-grid" id="zones-grid"></div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="map-section">
+            <div class="section-header">
+                <h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                        <line x1="8" y1="2" x2="8" y2="18"></line>
+                        <line x1="16" y1="6" x2="16" y2="22"></line>
+                    </svg>
+                    Flood Risk Map
+                </h2>
+            </div>
+            <div class="map-container">
+                <div id="flood-map" class="flood-map"></div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #22c55e;"></span>
+                        <span>Low Risk</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #eab308;"></span>
+                        <span>Medium Risk</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #ef4444;"></span>
+                        <span>High Risk</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Info Section -->
+        <section class="info-section">
+            <div class="info-card">
+                <h3>Prediction Model</h3>
+                <p>Rule-based system predicting flood risk 0-30 minutes ahead</p>
+                <div class="info-badge">ML-Ready</div>
+            </div>
+            <div class="info-card">
+                <h3>Data Sources</h3>
+                <ul>
+                    <li>Rainfall measurements (mm)</li>
+                    <li>Citizen distress reports</li>
+                    <li>Water level sensors</li>
+                    <li>SAR satellite radar</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>Last Updated</h3>
+                <p id="last-updated">Loading...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>FloodWatch &copy; 2024 - AI Powered Urban Flood Early Warning System</p>
+        <p>Built for urban safety and disaster preparedness</p>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- App JS with Map -->
+    <script src="app_map.js"></script>
+</body>
+</html>

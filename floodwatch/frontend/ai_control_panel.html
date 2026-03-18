@@ -1,0 +1,58 @@
+<!-- AI Control Panel - Fusion Intelligence Dashboard -->
+<!-- This snippet can be integrated into any dashboard page -->
+
+<!-- 
+USAGE INSTRUCTIONS:
+1. Include the CSS file in your <head>:
+   <link rel="stylesheet" href="ai_control_panel.css">
+
+2. Include the JS file before closing </body>:
+   <script src="ai_control_panel.js"></script>
+
+3. Add a container element where you want the panel to appear:
+   <div id="ai-control-panel"></div>
+
+4. The panel will auto-initialize. For manual initialization:
+   <script>
+     new AIControlPanel('ai-control-panel', {
+       apiEndpoint: '/api/flood-risk',
+       autoRefresh: true,
+       refreshInterval: 5000,
+       mockValues: {
+         sar_score: 0.85,
+         distress_score: 0.75,
+         previous_probability: 0.70
+       }
+     });
+   </script>
+-->
+
+<div id="ai-control-panel" class="ai-control-panel-wrapper">
+    <!-- AI Control Panel will be rendered here by JavaScript -->
+</div>
+
+<!-- Example of manual initialization (optional - panel auto-initializes by default) -->
+<!-- 
+<script>
+    // Custom initialization with specific options
+    const panel = new AIControlPanel('ai-control-panel', {
+        apiEndpoint: '/api/flood-risk',
+        autoRefresh: true,
+        refreshInterval: 5000,
+        mockValues: {
+            sar_score: 0.85,
+            distress_score: 0.75,
+            previous_probability: 0.70
+        }
+    });
+    
+    // To manually refresh data:
+    // panel.refresh();
+    
+    // To update input values and fetch:
+    // panel.setMockValues({ sar_score: 0.9, distress_score: 0.8, previous_probability: 0.75 });
+    
+    // To destroy the panel:
+    // panel.destroy();
+</script>
+-->

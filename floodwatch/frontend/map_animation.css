@@ -1,0 +1,171 @@
+/* =============================================================================
+   FloodWatch - Map Animation Styles
+   ============================================================================= */
+
+/* Heat circle base styles */
+.heat-circle {
+    transition: all 0.3s ease;
+}
+
+/* Heat glow animation for high surface water index */
+.heat-glow {
+    animation: heat-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes heat-pulse {
+    0%, 100% {
+        fill-opacity: 0.3;
+        stroke-width: 2;
+    }
+    50% {
+        fill-opacity: 0.5;
+        stroke-width: 3;
+    }
+}
+
+/* Distress spike flashing border animation */
+.distress-flash {
+    animation: distress-blink 0.8s ease-in-out infinite;
+}
+
+@keyframes distress-blink {
+    0%, 100% {
+        stroke-width: 2;
+        stroke-opacity: 1;
+    }
+    50% {
+        stroke-width: 4;
+        stroke-opacity: 0.5;
+    }
+}
+
+/* Zone marker styles */
+.zone-marker {
+    transition: all 0.3s ease;
+}
+
+.zone-marker:hover {
+    transform: scale(1.2);
+}
+
+/* Smooth map container */
+.map-container {
+    background: var(--color-bg);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    min-height: 400px;
+    position: relative;
+}
+
+.flood-map {
+    width: 100%;
+    height: 400px;
+    border-radius: var(--radius-md);
+    z-index: 1;
+}
+
+/* Map legend */
+.map-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.legend-color {
+    width: 1rem;
+    height: 1rem;
+    border-radius: var(--radius-sm);
+}
+
+/* Map data section in zone card */
+.map-data-section {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 1px solid #86efac;
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.map-data-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #15803d;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #86efac;
+}
+
+.map-data-header svg {
+    color: #22c55e;
+}
+
+.map-data-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.75rem;
+}
+
+.map-data-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.map-data-label {
+    font-size: 0.6rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.map-data-value {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.map-data-value.risk-color-green {
+    color: #22c55e;
+}
+
+.map-data-value.risk-color-orange {
+    color: #f59e0b;
+}
+
+.map-data-value.risk-color-red {
+    color: #ef4444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .map-data-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .map-legend {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .map-data-grid {
+        grid-template-columns: 1fr;
+    }
+}
